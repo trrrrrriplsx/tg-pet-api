@@ -2,7 +2,6 @@ const express = require('express');
 const admin = require('firebase-admin');
 
 // Инициализация Firebase Admin SDK через credential.cert
-// (правильный способ)
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
@@ -12,6 +11,22 @@ admin.initializeApp({
 });
 
 const app = express();
+
+// Добавляем CORS-заголовки
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // или укажи конкретный домен
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
+// Обработка OPTIONS-запросов (preflight)
+app.options('/api/token', (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  res.sendStatus(200);
+});
 
 app.get('/api/token', async (req, res) => {
   const { uid } = req.query;
