@@ -1,7 +1,7 @@
 const express = require('express');
 const admin = require('firebase-admin');
 
-// Инициализация Firebase Admin SDK через credential.cert
+// Инициализация Firebase Admin SDK
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
@@ -45,6 +45,6 @@ app.get('/api/token', async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server running on port ${process.env.PORT || 3000}`);
+app.listen(process.env.PORT || 10000, () => {
+  console.log(`Server running on port ${process.env.PORT || 10000}`);
 });
