@@ -1,8 +1,8 @@
 const express = require('express');
 const admin = require('firebase-admin');
 
-// Инициализация Firebase Admin SDK через applicationDefault
-// (работает с переменными окружения, которые ты задал в Render)
+// Инициализация Firebase Admin SDK через credential.cert
+// (правильный способ)
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: process.env.FIREBASE_PROJECT_ID,
