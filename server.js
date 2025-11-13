@@ -12,9 +12,9 @@ admin.initializeApp({
 
 const app = express();
 
-// Добавляем CORS-заголовки
+// Middleware для CORS
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // или укажи конкретный домен
+  res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
@@ -28,6 +28,7 @@ app.options('/api/token', (req, res) => {
   res.sendStatus(200);
 });
 
+// Основной эндпоинт
 app.get('/api/token', async (req, res) => {
   const { uid } = req.query;
 
@@ -39,6 +40,7 @@ app.get('/api/token', async (req, res) => {
     const customToken = await admin.auth().createCustomToken(uid);
     res.status(200).json({ token: customToken });
   } catch (error) {
+    console.error("Error generating token:", error);
     res.status(500).json({ error: error.message });
   }
 });
